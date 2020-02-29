@@ -31,7 +31,9 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-// Goes to /data URL and retrives Whatever is there
+// Goes to /data URL and retrives whatever is there
+// A promise as to what is found there is created; Promise is passed to a
+// handler function
 function fetchData() {
   console.assert('Retriving Data From /data');
 
@@ -40,6 +42,8 @@ function fetchData() {
   responsePromise.then(handleResponse);
 }
 
+// Response is then converted into text; Passed to function that will add it to
+// DOM
 function handleResponse(response) {
   console.log('Processing the response...');
 
@@ -48,6 +52,7 @@ function handleResponse(response) {
   textPromise.then(addTextToDom);
 }
 
+// Text is added to DOM
 function addTextToDom(text) {
   console.log('Adding the following Stirng to dom: ' + text);
 
