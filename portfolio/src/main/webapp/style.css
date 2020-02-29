@@ -7,3 +7,32 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+background-image{
+    background-image: url(/images/background.jpg);
+    background-size: 400% 1390%;
+}
+
+paragraph-style{
+    font-size: 15px;
+    text-align: center;
+}
+
+heading-style{
+    font-weight: bold;
+    text-align: center;
+    font-size: 22px;
+}
+
+link-style{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+body{
+    background-image: url(/images/background.jpg);
+    background-size: 400% 1390%;
+}
+
+
