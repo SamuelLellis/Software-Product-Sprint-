@@ -16,14 +16,12 @@
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
-  const greetings =
-      ["Never gonna give you up",
-"Never gonna let you down",
-"Never gonna run around and desert you",
-"Never gonna make you cry",
-"Never gonna say goodbye",
-"Never gonna tell a lie and hurt you",
-"HAHAHA Rick ROll'd. Be more careful next time ;)"];
+  const greetings = [
+    'Never gonna give you up', 'Never gonna let you down',
+    'Never gonna run around and desert you', 'Never gonna make you cry',
+    'Never gonna say goodbye', 'Never gonna tell a lie and hurt you',
+    'HAHAHA Rick ROll\'d. Be more careful next time ;)'
+  ];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
@@ -33,27 +31,26 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-//Goes to /data URL and retrives Whatever is there
-function fetchData(){
-    console.assert("Retriving Data From /data");
+// Goes to /data URL and retrives Whatever is there
+function fetchData() {
+  console.assert('Retriving Data From /data');
 
-    const response = fetch('/data');
+  const response = fetch('/data');
 
-    response.then(handleResponse);
-
+  response.then(handleResponse);
 }
 
-function handleResponse(response){
-    console.log("Processing the response...");
+function handleResponse(response) {
+  console.log('Processing the response...');
 
-    const textPromise = response.text();
+  const textPromise = response.text();
 
-    textPromise.then(addTextToDom);
+  textPromise.then(addTextToDom);
 }
 
-function addTextToDom(text){
-    console.log("Adding the following Stirng to dom: " + text);
+function addTextToDom(text) {
+  console.log('Adding the following Stirng to dom: ' + text);
 
-    const textContainer = document.getElementById('textContainer');
-    textContainer.innerText = text;
+  const textContainer = document.getElementById('textContainer');
+  textContainer.innerText = text;
 }
