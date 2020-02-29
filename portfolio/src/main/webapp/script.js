@@ -35,9 +35,9 @@ function addRandomGreeting() {
 function fetchData() {
   console.assert('Retriving Data From /data');
 
-  const response = fetch('/data');
+  const responsePromise = fetch('/data');
 
-  response.then(handleResponse);
+  responsePromise.then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -51,6 +51,6 @@ function handleResponse(response) {
 function addTextToDom(text) {
   console.log('Adding the following Stirng to dom: ' + text);
 
-  const textContainer = document.getElementById('textContainer');
+  const textContainer = document.getElementById('greeting-container');
   textContainer.innerText = text;
 }
