@@ -6,12 +6,58 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
+
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
+        <!-- Introduction-->
+      <h1><center>Samuel Lellis</center></h1>
+      <h3> <center>
+      If you have the time to consider giving up, then you have the time to get back to it.
+      </center> </h3> 
+
+      <p><center>Linkedin: <a href = "https://linkedin.com/in/samlellis"><i>www.linkedin.com/in/samlellis </i></a> | Github: <a href = "https://github.com/SamuelLellis"> <i>https://github.com/SamuelLellis</i></a> </center></p>
+
+      <p1><div id ="paragraph-style"> 
+      I am currently working towards a BS in Computer Science and a BA in Mathematical Sciences at Binghamton University</br>
+      I am not zeroed in on a specific field yet, right now I just wish to explore. </br>
+      </paragraph-style>
+      </div>
+      </p1>
+
+        <!-- Pictures of past projects-->
+      <h3> <div id = "heading-style">Projects </heading-style></h3>
+
+        <p2><div id = "link-style"><a href = "http://markovzodiac.xyz/"> Markov Zodiac Generator</link-style></a>: Created the front-end for a Horoscope generator website.</br>
+         <img src = "/images/Horoscope.jpg" style = "width:75%" "height:60%"></br></br> </br>
+        <div id = "link-style">Bingbound:</link-style> Worked on the front-end for a video game</b>
+        <img src = "/images/Bingbound1.png" style = "width:75%" "height:40%"></center>
+        </br> </p2>
+
+        <!-- Background-->
+        <h3> <div id = "heading-style"> The Road Behind </heading-style> </h3>
+        
+        <p4><div id ="paragraph-style"> 
+        I was born and raised on Long Island. I come from a relatively </br>
+        large family with me being the youngest of 5 siblings. Fighting with my siblings over essentials 
+        such as the last piece of chocolate cake has taught me </br> how cold and hard this world can be be.  </br>
+        I enjoy animals, anime, technology, and making a difference for the better in the lives of people around me. </br>
+        </p4>
+
+        <!-- Part of bio about my current live and future-->
+        <h3> <div id = "heading_style"> History and Aspirations </heading-style> </h3>
+
+        <p4>
+        My decision to pursue computer science came in 12th grade after </br>
+        I decided to take AP computer science. I found myself enjoying the class despite </br>
+        the difficulty. Once I am able to get started as a software engineer and get settled </br>
+        I want to pursue voice acting as a hobby.
+        </paragraph-style>
+        </p4>
+
+
+    <!-- Button for desired action-->
       <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
+      <button onclick="fetchData()">Hello</button>
       <div id="greeting-container"></div>
     </div>
   </body>
