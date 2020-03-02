@@ -22,21 +22,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  ArrayList<String> Comments = new ArrayList<String>();
+
   @Override
+  //Writes in Comment Arraylist to /data
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/json;");
-   // response.getWriter().println("Hello Samuel!");
-
-    ArrayList<String> HardCodedMessagesForJson = new ArrayList<String>();
-    HardCodedMessagesForJson.add("Hmm does this work?");
-    HardCodedMessagesForJson.add("I guess this works?");
-    HardCodedMessagesForJson.add("It does work!");
-
+    response.setContentType("text/json");  
     Gson gson = new Gson();
-    String json = gson.toJson(HardCodedMessagesForJson);
+    String json = gson.toJson(Comments);
     response.getWriter().println(json);
+    Comments.clear(); 
+    
+  }
+  //Takes in Post request from index.html and adds content to Comment ArrayList
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+      String text = getParameter(request, "text-input", "");
+      Comments.add(text);
+      response.sendRedirect("/index.html");
+  }
+
+    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }

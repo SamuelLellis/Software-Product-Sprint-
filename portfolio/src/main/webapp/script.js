@@ -37,21 +37,15 @@ function addRandomGreeting() {
 function fetchData() {
   console.assert('Retriving Data From /data');
 
-   const responsePromise = fetch('/data');
+   //const responsePromise = fetch('/data');
 
-   responsePromise.then(handleResponse);
+   //responsePromise.then(handleResponse);
 
   //Using JSON
-  fetch('/data').then(response => response.json()).then((data) => {
-    
+   fetch('/data').then(response => response.json()).then((data) => {
+
     const indexContainer = document.getElementById('greeting-container');
-        indexContainer.innerText = '';
-
-
-        indexContainer.appendChild(createListElement(data[0]));
-        indexContainer.appendChild(createListElement(data[1]));
-        indexContainer.appendChild(createListElement(data[2]));
-
+        indexContainer.appendChild(createListElement(data));
   })
 }
 

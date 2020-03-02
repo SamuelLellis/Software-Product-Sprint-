@@ -55,10 +55,18 @@
         </p4>
 
 
-    <!-- Button for desired action-->
-      <p>Click here to get a random message:</p>
-      <button onclick="fetchData()">Hello</button>
-      <div id="greeting-container"></div>
+
+      </br></br><button onclick="fetchData()">Refresh Comments</button></br>
+
+      <h4> Comment Section </h4>
+          <form action="/data" method="POST">
+            <div id="greeting-container"></div> 
+            <p>Leave some feedback below!</p> 
+            <textarea name="text-input"></textarea>
+            <br/><br/>
+            <input type="submit" />
+          </form>
+
     </div>
   </body>
 </html>
