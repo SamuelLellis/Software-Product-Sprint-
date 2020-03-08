@@ -14,6 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -35,7 +39,6 @@ public class DataServlet extends HttpServlet {
   @Override
   // Writes in Comment Arraylist to /data
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Comments.clear();
     response.setContentType("data/json");
 
     Query query = new Query("Comment").addSort("Timestamp", SortDirection.DESCENDING);
@@ -50,6 +53,7 @@ public class DataServlet extends HttpServlet {
       String new_comment = comment + " : " + timestamp + "\n";
       new_entries.add(new_comment);
     }
+
     Gson gson = new Gson();
     String json = gson.toJson(new_entries);
     response.getWriter().println(json);
@@ -60,10 +64,18 @@ public class DataServlet extends HttpServlet {
     String text = getParameter(request, "text-input", "");
     Comments.add(text);
 
+    //Uses Google's Language API to assign a rating to a comment
+    Document doc = Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+
     long timestamp = System.currentTimeMillis();
 
+    //value is added to database
     Entity taskEntity = new Entity("Comment");
-    taskEntity.setProperty("Comment", text);
+    taskEntity.setProperty("Comment", text +"("+score+")");
     taskEntity.setProperty("Timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -80,3 +92,5 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 }
+
+
