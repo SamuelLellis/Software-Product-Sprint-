@@ -89,11 +89,7 @@ to your
 file:
 
 ```xml
-<dependency>
-  <groupId>com.google.cloud</groupId>
-  <artifactId>google-cloud-language</artifactId>
-  <version>1.55.0</version>
-</dependency>
+
 ```
 
 You can read the documentation for the Java library

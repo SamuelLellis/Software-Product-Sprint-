@@ -37,40 +37,11 @@ function addRandomGreeting() {
 function fetchData() {
   console.assert('Retriving Data From /data');
 
-   const responsePromise = fetch('/data');
-
-   responsePromise.then(handleResponse);
-
-  //Using JSON
+  // Using JSON
   fetch('/data').then(response => response.json()).then((data) => {
-    
     const indexContainer = document.getElementById('greeting-container');
-        indexContainer.innerText = '';
-
-
-        indexContainer.appendChild(createListElement(data[0]));
-        indexContainer.appendChild(createListElement(data[1]));
-        indexContainer.appendChild(createListElement(data[2]));
-
+    indexContainer.appendChild(createListElement(data));
   })
-}
-
-// Response is then converted into text; Passed to function that will add it to
-// DOM
-function handleResponse(response) {
-  console.log('Processing the response...');
-
-  const textPromise = response.text();
-
-  textPromise.then(addTextToDom);
-}
-
-// Text is added to DOM
-function addTextToDom(text) {
-  console.log('Adding the following Stirng to dom: ' + text);
-
-  const textContainer = document.getElementById('greeting-container');
-  textContainer.innerText = text;
 }
 
 function createListElement(text) {

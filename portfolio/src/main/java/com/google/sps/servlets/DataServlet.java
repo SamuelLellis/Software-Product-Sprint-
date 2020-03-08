@@ -14,29 +14,83 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import com.google.gson.Gson;
+// import com.google.sps.data.Task;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  ArrayList<String> Comments = new ArrayList<String>();
   @Override
+  // Writes in Comment Arraylist to /data
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/json;");
-   // response.getWriter().println("Hello Samuel!");
+    response.setContentType("data/json");
 
-    ArrayList<String> HardCodedMessagesForJson = new ArrayList<String>();
-    HardCodedMessagesForJson.add("Hmm does this work?");
-    HardCodedMessagesForJson.add("I guess this works?");
-    HardCodedMessagesForJson.add("It does work!");
+    Query query = new Query("Comment").addSort("Timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    ArrayList<String> new_entries = new ArrayList<String>();
+    for (Entity entity : results.asIterable()) {
+      String comment = (String) entity.getProperty("Comment");
+      long timestamp = (long) entity.getProperty("Timestamp");
+
+      String new_comment = comment + " : " + timestamp + "\n";
+      new_entries.add(new_comment);
+    }
 
     Gson gson = new Gson();
-    String json = gson.toJson(HardCodedMessagesForJson);
+    String json = gson.toJson(new_entries);
     response.getWriter().println(json);
   }
+  // Takes in Post request from index.html and adds content to Comment ArrayList
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String text = getParameter(request, "text-input", "");
+    Comments.add(text);
+
+    //Uses Google's Language API to assign a rating to a comment
+    Document doc = Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+
+    long timestamp = System.currentTimeMillis();
+
+    //value is added to database
+    Entity taskEntity = new Entity("Comment");
+    taskEntity.setProperty("Comment", text +"("+score+")");
+    taskEntity.setProperty("Timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(taskEntity);
+
+    response.sendRedirect("/index.html");
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
 }
+
+
